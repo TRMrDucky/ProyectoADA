@@ -38,7 +38,7 @@ public class BellmanFord {
                     double peso = arista.getPeso();
                     if (distancias.get(u) != Double.MAX_VALUE && distancias.get(u) + peso < distancias.get(v)) {
                         distancias.put(v, distancias.get(u) + peso);
-                        predecesores.put(u, v);
+                        predecesores.put(v, u);
                     }
                 }
 
@@ -48,7 +48,7 @@ public class BellmanFord {
             for (Arista arista : grafo.getVecinos(u)) {
                 Vertice v = arista.getDestino();
                 double peso = arista.getPeso();
-                if (distancias.get(u) != Double.MAX_VALUE && distancias.get(u)+ peso < distancias.get(v)) {
+                if (distancias.get(u) != Double.MAX_VALUE && distancias.get(u) + peso < distancias.get(v)) {
                     resultado.put("ciclo negativo", true);
                     resultado.put("distancia", Double.NEGATIVE_INFINITY);
                     resultado.put("ruta", new java.util.ArrayList<>());
@@ -56,22 +56,27 @@ public class BellmanFord {
                 }
             }
         }
-        resultado.put("ciclo negativo",false);
-        
+        resultado.put("ciclo negativo", false);
+
         List<Vertice> ruta = new java.util.ArrayList<>();
         Vertice paso = destino;
-        if(predecesores.get(paso) != null || paso.equals(origen)){
-            while(paso != null){
+        if (predecesores.get(paso) != null || paso.equals(origen)) {
+            while (paso != null) {
                 ruta.add(paso);
                 paso = predecesores.get(paso);
-                
+
             }
         }
         Collections.reverse(ruta);
-        resultado.put("distancias,", distancias.get(destino));
-        resultado.put("ruta", ruta);
+        if (ruta.isEmpty() || !ruta.get(0).equals(origen)) {
+            resultado.put("ruta", new java.util.ArrayList<>());//aqui devuelve una ruta vacia
+        } else {
+            resultado.put("ruta", ruta);
+        }
+
+        resultado.put("distancia", distancias.get(destino));
+
         return resultado;
     }
-    
-    
+
 }
