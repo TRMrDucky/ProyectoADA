@@ -26,16 +26,18 @@
           <Component id="panelMapa" alignment="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-              <Component id="btnKruskal" min="-2" pref="171" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-              <Component id="BtnBellmanFord" min="-2" pref="153" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-              <Component id="BtnBFS" min="-2" pref="153" max="-2" attributes="0"/>
+              <Component id="btnKruskal" min="-2" pref="115" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="BtnBellmanFord" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="BtnBFS" min="-2" pref="116" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="BtnDFS" min="-2" pref="101" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="BtnDijkstra" min="-2" pref="107" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="BtnDFS" min="-2" pref="153" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="BtnDijkstra" min="-2" pref="153" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnBoruvka" min="-2" pref="117" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
               <Component id="btnSalir" min="-2" pref="153" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -46,13 +48,16 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panelMapa" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnKruskal" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
-                  <Component id="BtnBellmanFord" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
-                  <Component id="BtnBFS" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
-                  <Component id="BtnDFS" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
-                  <Component id="BtnDijkstra" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
-                  <Component id="btnSalir" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnKruskal" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                      <Component id="BtnBellmanFord" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                      <Component id="BtnBFS" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                      <Component id="BtnDFS" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                      <Component id="BtnDijkstra" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                      <Component id="btnSalir" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="btnBoruvka" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
@@ -121,6 +126,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnBoruvka">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Boruvka"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBoruvkaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -5,6 +5,7 @@
 package Presentacion;
 
 import Algoritmos.AlgoritmosBusqueda;
+import Algoritmos.AlgoritmosMST;
 import Algoritmos.BellmanFord;
 import Algoritmos.MapaCiudades;
 import Grafos.Arista;
@@ -50,6 +51,7 @@ public class Presentacion extends javax.swing.JFrame {
         BtnDFS = new javax.swing.JButton();
         BtnDijkstra = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        btnBoruvka = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,6 +108,13 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
 
+        btnBoruvka.setText("Boruvka");
+        btnBoruvka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBoruvkaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,16 +122,18 @@ public class Presentacion extends javax.swing.JFrame {
             .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(btnBoruvka, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(149, 149, 149)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -131,13 +142,15 @@ public class Presentacion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBoruvka, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
 
@@ -225,7 +238,6 @@ public class Presentacion extends javax.swing.JFrame {
             grafoRuta.agregarArista(u, v, peso);
         }
 
-        
         try {
             mp.actualizarGrafo(grafoRuta);
         } catch (InterruptedException ex) {
@@ -282,6 +294,16 @@ public class Presentacion extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnBoruvkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoruvkaActionPerformed
+        try {
+            Grafo grafoOriginal = mp.getGrafo();
+            Grafo mst = AlgoritmosMST.aplicarBoruvka(grafoOriginal);
+            mp.actualizarGrafo(mst);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnBoruvkaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -334,6 +356,7 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JButton BtnBellmanFord;
     private javax.swing.JButton BtnDFS;
     private javax.swing.JButton BtnDijkstra;
+    private javax.swing.JButton btnBoruvka;
     private javax.swing.JButton btnKruskal;
     private javax.swing.JButton btnSalir;
     private javax.swing.JPanel panelMapa;
