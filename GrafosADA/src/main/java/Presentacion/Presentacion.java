@@ -4,9 +4,15 @@
  */
 package Presentacion;
 
+import Algoritmos.BellmanFord;
 import Algoritmos.MapaCiudades;
+import Grafos.Arista;
 import Grafos.Grafo;
+import Grafos.Vertice;
 import java.awt.BorderLayout;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,12 +21,13 @@ import java.awt.BorderLayout;
 public class Presentacion extends javax.swing.JFrame {
 
     private static MapaPanel mp;
+
     public Presentacion() {
         initComponents();
         mostrarMapa();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
+
     }
 
     /**
@@ -34,6 +41,7 @@ public class Presentacion extends javax.swing.JFrame {
 
         panelMapa = new javax.swing.JPanel();
         btnKruskal = new javax.swing.JButton();
+        BtnBellmanFord = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +63,13 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
 
+        BtnBellmanFord.setText("Bellman ford");
+        BtnBellmanFord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBellmanFordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -63,6 +78,8 @@ public class Presentacion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -70,7 +87,9 @@ public class Presentacion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnKruskal, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(BtnBellmanFord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 55, Short.MAX_VALUE))
         );
 
@@ -81,6 +100,84 @@ public class Presentacion extends javax.swing.JFrame {
         Grafo g = Algoritmos.AlgoritmosMST.aplicarKruskal(mp.getGrafo());
         mp.actualizarGrafo(g);
     }//GEN-LAST:event_btnKruskalActionPerformed
+    private double obtenerPesoArista(Grafo grafo, Vertice origen, Vertice destino) {
+
+        for (Arista arista : grafo.getVecinos(origen)) {
+            if (arista.getDestino().equals(destino)) {
+                return arista.getPeso();
+            }
+        }
+
+        for (Arista arista : grafo.getVecinos(destino)) {
+            if (arista.getDestino().equals(origen)) {
+                return arista.getPeso();
+            }
+        }
+        return 0.0;
+    }
+    private void BtnBellmanFordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBellmanFordActionPerformed
+
+        String origenNombre = JOptionPane.showInputDialog(this, "Ingrese la ciudad de origen:");
+        if (origenNombre == null || origenNombre.trim().isEmpty()) {
+            return;
+        }
+
+        String destinoNombre = JOptionPane.showInputDialog(this, "Ingrese la ciudad de destino:");
+        if (destinoNombre == null || destinoNombre.trim().isEmpty()) {
+            return;
+        }
+
+        Grafo grafoOriginal = mp.getGrafo();
+        Vertice origen = null;
+        Vertice destino = null;
+
+        for (Vertice v : grafoOriginal.getVertices()) {
+            if (v.getNombre().equalsIgnoreCase(origenNombre.trim())) {
+                origen = v;
+            }
+            if (v.getNombre().equalsIgnoreCase(destinoNombre.trim())) {
+                destino = v;
+            }
+        }
+
+        if (origen == null || destino == null) {
+            JOptionPane.showMessageDialog(this, "Una o ambas ciudades no se encontraron en el grafo.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (origen.equals(destino)) {
+            JOptionPane.showMessageDialog(this, "La ciudad de origen y destino no pueden ser la misma.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        Map<String, Object> resultado = BellmanFord.BellmanFord(grafoOriginal, origen, destino);
+
+        if ((Boolean) resultado.get("ciclo negativo")) {
+            JOptionPane.showMessageDialog(this, "Se detecto un ciclo de peso negativo. No se puede calcular la ruta más corta.", "Ciclo Negativo Detectado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<Vertice> ruta = (List<Vertice>) resultado.get("ruta");
+        if (ruta == null || ruta.size() < 2) {
+            JOptionPane.showMessageDialog(this, "No se encontro una ruta entre las ciudades seleccionadas.", "Sin Ruta", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        Grafo grafoRuta = new Grafo();
+        ruta.forEach(grafoRuta::agregarVertice);
+
+        for (int i = 0; i < ruta.size() - 1; i++) {
+            Vertice u = ruta.get(i);
+            Vertice v = ruta.get(i + 1);
+            double peso = obtenerPesoArista(grafoOriginal, u, v);
+            grafoRuta.agregarArista(u, v, peso);
+        }
+
+        
+        mp.actualizarGrafo(grafoRuta);
+
+
+    }//GEN-LAST:event_BtnBellmanFordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,6 +213,7 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
     }
+
     private void mostrarMapa() {
         Grafo grafoCiudades = MapaCiudades.construirGrafo();
 
@@ -128,6 +226,7 @@ public class Presentacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnBellmanFord;
     private javax.swing.JButton btnKruskal;
     private javax.swing.JPanel panelMapa;
     // End of variables declaration//GEN-END:variables
