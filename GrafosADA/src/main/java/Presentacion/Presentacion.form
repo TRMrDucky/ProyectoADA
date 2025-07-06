@@ -29,6 +29,12 @@
               <Component id="btnKruskal" min="-2" pref="171" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
               <Component id="BtnBellmanFord" min="-2" pref="153" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+              <Component id="BtnBFS" min="-2" pref="153" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="BtnDFS" min="-2" pref="153" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="BtnDijkstra" min="-2" pref="153" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -41,8 +47,11 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnKruskal" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
                   <Component id="BtnBellmanFord" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                  <Component id="BtnBFS" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                  <Component id="BtnDFS" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
+                  <Component id="BtnDijkstra" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="264" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -58,7 +67,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="484" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="259" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -77,6 +86,30 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnBellmanFordActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="BtnBFS">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="BFS"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnBFSActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="BtnDFS">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="DFS"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnDFSActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="BtnDijkstra">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Dijkstra"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnDijkstraActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

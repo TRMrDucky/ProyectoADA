@@ -4,6 +4,7 @@
  */
 package Presentacion;
 
+import Algoritmos.AlgoritmosBusqueda;
 import Algoritmos.BellmanFord;
 import Algoritmos.MapaCiudades;
 import Grafos.Arista;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 public class Presentacion extends javax.swing.JFrame {
 
     private static MapaPanel mp;
+    private AlgoritmosBusqueda algoritmos = new AlgoritmosBusqueda();
 
     public Presentacion() {
         initComponents();
@@ -42,6 +44,9 @@ public class Presentacion extends javax.swing.JFrame {
         panelMapa = new javax.swing.JPanel();
         btnKruskal = new javax.swing.JButton();
         BtnBellmanFord = new javax.swing.JButton();
+        BtnBFS = new javax.swing.JButton();
+        BtnDFS = new javax.swing.JButton();
+        BtnDijkstra = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,7 +58,7 @@ public class Presentacion extends javax.swing.JFrame {
         );
         panelMapaLayout.setVerticalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 484, Short.MAX_VALUE)
+            .addGap(0, 259, Short.MAX_VALUE)
         );
 
         btnKruskal.setText("Kruskal");
@@ -70,6 +75,27 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
 
+        BtnBFS.setText("BFS");
+        BtnBFS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBFSActionPerformed(evt);
+            }
+        });
+
+        BtnDFS.setText("DFS");
+        BtnDFS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDFSActionPerformed(evt);
+            }
+        });
+
+        BtnDijkstra.setText("Dijkstra");
+        BtnDijkstra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDijkstraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,6 +106,12 @@ public class Presentacion extends javax.swing.JFrame {
                 .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54)
                 .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -89,8 +121,11 @@ public class Presentacion extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39))
+                    .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(264, 264, 264))
         );
 
         pack();
@@ -179,6 +214,36 @@ public class Presentacion extends javax.swing.JFrame {
 
     }//GEN-LAST:event_BtnBellmanFordActionPerformed
 
+    private void BtnBFSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBFSActionPerformed
+        Vertice origen = mp.getVerticeSeleccionado();
+        if (origen == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona un vertice origen");
+            return;
+        }
+        Grafo g = algoritmos.BFS(mp.getGrafo(), origen);
+        mp.actualizarGrafo(g);
+    }//GEN-LAST:event_BtnBFSActionPerformed
+
+    private void BtnDFSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDFSActionPerformed
+        Vertice origen = mp.getVerticeSeleccionado();
+        if (origen == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona un vertice origen");
+            return;
+        }
+        Grafo g = algoritmos.DFS(mp.getGrafo(), origen);
+        mp.actualizarGrafo(g);
+    }//GEN-LAST:event_BtnDFSActionPerformed
+
+    private void BtnDijkstraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDijkstraActionPerformed
+        Vertice origen = mp.getVerticeSeleccionado();
+        if (origen == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona un vertice origen");
+            return;
+        }
+        Grafo g = algoritmos.Dijkstra(mp.getGrafo(), origen);
+        mp.actualizarGrafo(g);
+    }//GEN-LAST:event_BtnDijkstraActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -227,7 +292,10 @@ public class Presentacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnBFS;
     private javax.swing.JButton BtnBellmanFord;
+    private javax.swing.JButton BtnDFS;
+    private javax.swing.JButton BtnDijkstra;
     private javax.swing.JButton btnKruskal;
     private javax.swing.JPanel panelMapa;
     // End of variables declaration//GEN-END:variables

@@ -1,4 +1,5 @@
 Algoritmos\AlgoritmosMST$AristaPair.class
+Presentacion\Presentacion$4.class
 Presentacion\Presentacion$3.class
 Algoritmos\BellmanFord.class
 Algoritmos\AlgoritmosMST.class
@@ -6,11 +7,14 @@ Grafos\Grafo.class
 Grafos\Vertice.class
 Algoritmos\NodoDistancia.class
 Presentacion\MapaPanel.class
+Presentacion\Presentacion$5.class
 Algoritmos\AlgoritmosBusqueda.class
 Presentacion\Presentacion$1.class
 Algoritmos\MapaCiudades.class
+Presentacion\MapaPanel$1.class
 Presentacion\Presentacion.class
 Algoritmos\AlgoritmosMST$UnionFind.class
+Presentacion\Presentacion$6.class
 Presentacion\MapaPanel$CustomPolyline.class
 Grafos\Arista.class
 Presentacion\Presentacion$2.class

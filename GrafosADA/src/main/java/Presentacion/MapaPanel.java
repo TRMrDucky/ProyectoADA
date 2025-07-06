@@ -13,12 +13,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 
@@ -30,6 +33,7 @@ public class MapaPanel extends JMapViewer {
 
     private final Grafo grafo;
     private final List<MapPolygon> lineas;
+    private Vertice verticeSeleccionado = null;
 
     public MapaPanel(Grafo grafo) {
         this.grafo = grafo;
@@ -38,7 +42,48 @@ public class MapaPanel extends JMapViewer {
         setTileSource(new OsmTileSource.Mapnik());
         setZoomContolsVisible(true);
         dibujarGrafo();
+        agregarListenerSeleccion();
+    }
 
+    private void agregarListenerSeleccion() {
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                // Convertir el punto del clic a coordenadas geograficas
+                ICoordinate Icoord = getPosition(e.getPoint());
+                Coordinate coord = new Coordinate(Icoord.getLat(), Icoord.getLon());
+                // Buscar el vertice mas cercano
+                verticeSeleccionado = encontrarVerticeCercano(coord);
+                // Volver a dibujar el grafo para resaltar la seleccion
+                actualizarGrafo(grafo);
+            }
+        });
+    }
+
+    private Vertice encontrarVerticeCercano(Coordinate coord) {
+        double minDistancia = Double.MAX_VALUE;
+        Vertice verticeCercano = null;
+        double umbral = 0.01;
+
+        for (Vertice v : grafo.getVertices()) {
+            double distancia = distanciaCoord(coord, new Coordinate(v.getLatitud(), v.getLongitud()));
+            if (distancia < umbral && distancia < minDistancia) {
+                minDistancia = distancia;
+                verticeCercano = v;
+            }
+        }
+        return verticeCercano;
+    }
+
+    private double distanciaCoord(Coordinate c1, Coordinate c2) {
+        double lat = c1.getLat() - c2.getLat();
+        double lon = c1.getLon() - c2.getLon();
+        return Math.sqrt(lat * lat + lon * lon);
+    }
+
+    public Vertice getVerticeSeleccionado() {
+        return verticeSeleccionado;
     }
 
     public void actualizarGrafo(Grafo g) {
@@ -49,7 +94,11 @@ public class MapaPanel extends JMapViewer {
         for (Vertice nodo : g.getVertices()) {
             Coordinate coord = new Coordinate(nodo.getLatitud(), nodo.getLongitud());
             MapMarkerDot marker = new MapMarkerDot(nodo.getNombre(), coord);
-            marker.setBackColor(Color.RED);
+            if (nodo.equals(verticeSeleccionado)) {
+                marker.setBackColor(Color.GREEN);
+            } else {
+                marker.setBackColor(Color.RED);
+            }
             marker.setColor(Color.WHITE);
             marker.setName(nodo.getNombre());
             addMapMarker(marker);

@@ -187,7 +187,7 @@ public class AlgoritmosBusqueda {
      * @param predecesores Mapa de predecesores
      * @param cola Cola de prioridad con nodos a procesar
      */
-    private static void procesarCola(
+    private void procesarCola(
             Grafo grafo,
             Map<Vertice, Double> distancias,
             Map<Vertice, Vertice> predecesores,
@@ -219,7 +219,7 @@ public class AlgoritmosBusqueda {
      * @param predecesores Mapa de predecesores
      * @param cola Cola de prioridad
      */
-    private static void procesarVecino(
+    private void procesarVecino(
             Vertice actual,
             Arista arista,
             Map<Vertice, Double> distancias,
@@ -248,7 +248,7 @@ public class AlgoritmosBusqueda {
      * @param predecesores Mapa de predecesores
      * @param cola Cola de prioridad
      */
-    private static void actualizarDistancias(
+    private void actualizarDistancias(
             Vertice vecino,
             double nuevaDistancia,
             Vertice predecesor,
