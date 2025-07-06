@@ -125,11 +125,10 @@ public class MapaPanel extends JMapViewer {
                 MapPolygon linea = new CustomPolyline(puntos, Color.BLUE);
                 addMapPolygon(linea);
                 lineas.add(linea);
-                repaint();
-                Thread.sleep(50L);
+
             }
         }
-
+        repaint();
     }
 
     private void dibujarGrafo() {
