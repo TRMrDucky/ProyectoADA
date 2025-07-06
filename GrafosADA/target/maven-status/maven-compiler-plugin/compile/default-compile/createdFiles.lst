@@ -2,6 +2,7 @@ Algoritmos\AlgoritmosMST$AristaPair.class
 Algoritmos\AlgoritmosMST.class
 Grafos\Grafo.class
 Grafos\Vertice.class
+Algoritmos\NodoDistancia.class
 Presentacion\MapaPanel.class
 Algoritmos\AlgoritmosBusqueda.class
 Presentacion\Presentacion$1.class
