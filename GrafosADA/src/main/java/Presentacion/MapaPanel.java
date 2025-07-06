@@ -137,4 +137,7 @@ private void actualizarGrafo(Grafo g){
             g2.dispose();
         }
     }
+	private Grafo getGrafo(){
+		return this.grafo;
+	}
 }
