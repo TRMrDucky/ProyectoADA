@@ -26,23 +26,23 @@ import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
  *
  * @author 52644
  */
-public class MapaPanel extends JMapViewer{
+public class MapaPanel extends JMapViewer {
+
     private final Grafo grafo;
     private final List<MapPolygon> lineas;
 
     public MapaPanel(Grafo grafo) {
         this.grafo = grafo;
         this.lineas = new ArrayList<>();
-        setDisplayPosition(new Coordinate(22.278199, -101.1453780), 7); 
+        setDisplayPosition(new Coordinate(22.278199, -101.1453780), 7);
         setTileSource(new OsmTileSource.Mapnik());
         setZoomContolsVisible(true);
         dibujarGrafo();
-        
-        
+
     }
 
-private void actualizarGrafo(Grafo g){
-	getMapMarkerList().clear();
+    private void actualizarGrafo(Grafo g) {
+        getMapMarkerList().clear();
         lineas.forEach(this::removeMapPolygon);
         lineas.clear();
 
@@ -65,7 +65,7 @@ private void actualizarGrafo(Grafo g){
                 List<Coordinate> puntos = new ArrayList<>();
                 puntos.add(coordOrigen);
                 puntos.add(coordDestino);
-                puntos.add(coordDestino); 
+                puntos.add(coordDestino);
 
                 MapPolygon linea = new CustomPolyline(puntos, Color.BLUE);
                 addMapPolygon(linea);
@@ -74,7 +74,6 @@ private void actualizarGrafo(Grafo g){
         }
         repaint();
     }
-}
 
     private void dibujarGrafo() {
         getMapMarkerList().clear();
@@ -100,7 +99,7 @@ private void actualizarGrafo(Grafo g){
                 List<Coordinate> puntos = new ArrayList<>();
                 puntos.add(coordOrigen);
                 puntos.add(coordDestino);
-                puntos.add(coordDestino); 
+                puntos.add(coordDestino);
 
                 MapPolygon linea = new CustomPolyline(puntos, Color.BLUE);
                 addMapPolygon(linea);
@@ -110,7 +109,12 @@ private void actualizarGrafo(Grafo g){
         repaint();
     }
 
+    private Grafo getGrafo() {
+        return this.grafo;
+    }
+
     private static class CustomPolyline extends MapPolygonImpl {
+
         private final Color color;
         private final Stroke stroke;
 
@@ -137,7 +141,4 @@ private void actualizarGrafo(Grafo g){
             g2.dispose();
         }
     }
-	private Grafo getGrafo(){
-		return this.grafo;
-	}
 }
