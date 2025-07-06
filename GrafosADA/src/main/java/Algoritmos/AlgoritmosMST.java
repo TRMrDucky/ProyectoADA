@@ -42,7 +42,8 @@ public class AlgoritmosMST {
 
     public static Grafo aplicarKruskal(Grafo grafoOriginal) {
         Grafo mst = new Grafo();
-
+        double w = 0;
+        
         for (Vertice v : grafoOriginal.getVertices()) {
             mst.agregarVertice(v);
         }
@@ -76,9 +77,11 @@ public class AlgoritmosMST {
                 str.append("• ").append(u.getNombre())
                         .append(" — ").append(v.getNombre())
                         .append(" (").append(arista.getPeso()).append(" km)\n");
+                w+=arista.getPeso();
             }
         }
 
+        str.append("\nPeso total: ").append(w).append(" KM");
         JOptionPane.showMessageDialog(null, str.toString(), str.toString(), JOptionPane.INFORMATION_MESSAGE);
 
         return mst;
