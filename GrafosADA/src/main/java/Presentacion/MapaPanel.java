@@ -41,7 +41,7 @@ public class MapaPanel extends JMapViewer {
 
     }
 
-    private void actualizarGrafo(Grafo g) {
+    public void actualizarGrafo(Grafo g) {
         getMapMarkerList().clear();
         lineas.forEach(this::removeMapPolygon);
         lineas.clear();
@@ -109,7 +109,7 @@ public class MapaPanel extends JMapViewer {
         repaint();
     }
 
-    private Grafo getGrafo() {
+    public Grafo getGrafo() {
         return this.grafo;
     }
 

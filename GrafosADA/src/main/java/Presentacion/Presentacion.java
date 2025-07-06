@@ -14,9 +14,7 @@ import java.awt.BorderLayout;
  */
 public class Presentacion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Presentacion
-     */
+    private static MapaPanel mp;
     public Presentacion() {
         initComponents();
         mostrarMapa();
@@ -80,7 +78,8 @@ public class Presentacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKruskalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKruskalActionPerformed
-//        Grafo g = Algoritmos.AlgoritmosMST.aplicarKruskal();
+        Grafo g = Algoritmos.AlgoritmosMST.aplicarKruskal(mp.getGrafo());
+        mp.actualizarGrafo(g);
     }//GEN-LAST:event_btnKruskalActionPerformed
 
     /**
@@ -121,7 +120,7 @@ public class Presentacion extends javax.swing.JFrame {
         Grafo grafoCiudades = MapaCiudades.construirGrafo();
 
         MapaPanel mapaPanel = new MapaPanel(grafoCiudades);
-
+        this.mp = mapaPanel;
         panelMapa.setLayout(new BorderLayout());
         panelMapa.add(mapaPanel, BorderLayout.CENTER);
 
