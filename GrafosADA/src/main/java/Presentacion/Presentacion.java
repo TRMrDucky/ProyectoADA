@@ -52,6 +52,7 @@ public class Presentacion extends javax.swing.JFrame {
         BtnDijkstra = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnBoruvka = new javax.swing.JButton();
+        BntReiniciar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +116,13 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
 
+        BntReiniciar.setText("Reiniciar mapa");
+        BntReiniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BntReiniciarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,7 +141,9 @@ public class Presentacion extends javax.swing.JFrame {
                 .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnBoruvka, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(149, 149, 149)
+                .addGap(26, 26, 26)
+                .addComponent(BntReiniciar)
+                .addGap(27, 27, 27)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -150,7 +160,8 @@ public class Presentacion extends javax.swing.JFrame {
                         .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnBoruvka, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnBoruvka, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BntReiniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
 
@@ -303,6 +314,15 @@ public class Presentacion extends javax.swing.JFrame {
             Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnBoruvkaActionPerformed
+    
+    private void BntReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BntReiniciarActionPerformed
+        Grafo grafoOriginal = MapaCiudades.construirGrafo();
+        try {
+            mp.actualizarGrafo(grafoOriginal);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_BntReiniciarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -352,6 +372,7 @@ public class Presentacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BntReiniciar;
     private javax.swing.JButton BtnBFS;
     private javax.swing.JButton BtnBellmanFord;
     private javax.swing.JButton BtnDFS;
