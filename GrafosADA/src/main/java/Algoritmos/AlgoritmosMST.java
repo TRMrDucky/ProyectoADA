@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
-public class AlgoritmosMST(){
+public class AlgoritmosMST{
 
 
 }
