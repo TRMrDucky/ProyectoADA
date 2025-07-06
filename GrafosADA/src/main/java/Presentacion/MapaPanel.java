@@ -17,6 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
@@ -55,8 +57,12 @@ public class MapaPanel extends JMapViewer {
                 Coordinate coord = new Coordinate(Icoord.getLat(), Icoord.getLon());
                 // Buscar el vertice mas cercano
                 verticeSeleccionado = encontrarVerticeCercano(coord);
-                // Volver a dibujar el grafo para resaltar la seleccion
-                actualizarGrafo(grafo);
+                try {
+                    // Volver a dibujar el grafo para resaltar la seleccion
+                    actualizarGrafo(grafo);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MapaPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -86,7 +92,7 @@ public class MapaPanel extends JMapViewer {
         return verticeSeleccionado;
     }
 
-    public void actualizarGrafo(Grafo g) {
+    public void actualizarGrafo(Grafo g) throws InterruptedException {
         getMapMarkerList().clear();
         lineas.forEach(this::removeMapPolygon);
         lineas.clear();
@@ -119,6 +125,7 @@ public class MapaPanel extends JMapViewer {
                 MapPolygon linea = new CustomPolyline(puntos, Color.BLUE);
                 addMapPolygon(linea);
                 lineas.add(linea);
+
             }
         }
         repaint();

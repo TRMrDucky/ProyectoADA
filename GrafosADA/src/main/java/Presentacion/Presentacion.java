@@ -5,7 +5,6 @@
 package Presentacion;
 
 import Algoritmos.AlgoritmosBusqueda;
-import Algoritmos.AlgoritmosMST;
 import Algoritmos.BellmanFord;
 import Algoritmos.MapaCiudades;
 import Grafos.Arista;
@@ -14,6 +13,8 @@ import Grafos.Vertice;
 import java.awt.BorderLayout;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -48,7 +49,7 @@ public class Presentacion extends javax.swing.JFrame {
         BtnBFS = new javax.swing.JButton();
         BtnDFS = new javax.swing.JButton();
         BtnDijkstra = new javax.swing.JButton();
-        btnBoruvka = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,7 +61,7 @@ public class Presentacion extends javax.swing.JFrame {
         );
         panelMapaLayout.setVerticalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 428, Short.MAX_VALUE)
+            .addGap(0, 402, Short.MAX_VALUE)
         );
 
         btnKruskal.setText("Kruskal");
@@ -98,10 +99,10 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
 
-        btnBoruvka.setText("Boruvka");
-        btnBoruvka.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBoruvkaActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -111,33 +112,33 @@ public class Presentacion extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnBoruvka, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
                 .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBoruvka, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
-                .addContainerGap(66, Short.MAX_VALUE))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -145,7 +146,11 @@ public class Presentacion extends javax.swing.JFrame {
 
     private void btnKruskalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKruskalActionPerformed
         Grafo g = Algoritmos.AlgoritmosMST.aplicarKruskal(mp.getGrafo());
-        mp.actualizarGrafo(g);
+        try {
+            mp.actualizarGrafo(g);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnKruskalActionPerformed
     private double obtenerPesoArista(Grafo grafo, Vertice origen, Vertice destino) {
 
@@ -221,7 +226,11 @@ public class Presentacion extends javax.swing.JFrame {
         }
 
         
-        mp.actualizarGrafo(grafoRuta);
+        try {
+            mp.actualizarGrafo(grafoRuta);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
     }//GEN-LAST:event_BtnBellmanFordActionPerformed
@@ -233,7 +242,11 @@ public class Presentacion extends javax.swing.JFrame {
             return;
         }
         Grafo g = algoritmos.BFS(mp.getGrafo(), origen);
-        mp.actualizarGrafo(g);
+        try {
+            mp.actualizarGrafo(g);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnBFSActionPerformed
 
     private void BtnDFSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDFSActionPerformed
@@ -243,7 +256,11 @@ public class Presentacion extends javax.swing.JFrame {
             return;
         }
         Grafo g = algoritmos.DFS(mp.getGrafo(), origen);
-        mp.actualizarGrafo(g);
+        try {
+            mp.actualizarGrafo(g);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnDFSActionPerformed
 
     private void BtnDijkstraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDijkstraActionPerformed
@@ -253,14 +270,17 @@ public class Presentacion extends javax.swing.JFrame {
             return;
         }
         Grafo g = algoritmos.Dijkstra(mp.getGrafo(), origen);
-        mp.actualizarGrafo(g);
+        try {
+            mp.actualizarGrafo(g);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnDijkstraActionPerformed
 
-    private void btnBoruvkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoruvkaActionPerformed
-        Grafo grafoOriginal = mp.getGrafo();
-        Grafo mst = AlgoritmosMST.aplicarBoruvka(grafoOriginal);
-        mp.actualizarGrafo(mst);
-    }//GEN-LAST:event_btnBoruvkaActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,8 +334,8 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JButton BtnBellmanFord;
     private javax.swing.JButton BtnDFS;
     private javax.swing.JButton BtnDijkstra;
-    private javax.swing.JButton btnBoruvka;
     private javax.swing.JButton btnKruskal;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JPanel panelMapa;
     // End of variables declaration//GEN-END:variables
 }

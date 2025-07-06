@@ -25,7 +25,7 @@ public class AlgoritmosMST {
 
         public Vertice find(Vertice v) {
             if (padre.get(v) != v) {
-                padre.put(v, find(padre.get(v))); // Compresión de camino
+                padre.put(v, find(padre.get(v))); 
             }
             return padre.get(v);
         }
@@ -34,20 +34,19 @@ public class AlgoritmosMST {
             Vertice raizU = find(u);
             Vertice raizV = find(v);
             if (!raizU.equals(raizV)) {
-                padre.put(raizU, raizV); // Unión simple
+                padre.put(raizU, raizV); 
             }
         }
     }
 
     public static Grafo aplicarKruskal(Grafo grafoOriginal) {
-        Grafo mst = new Grafo(); // Grafo resultante (MST)
+        Grafo mst = new Grafo(); 
 
-        // Paso 1: Agregar todos los vértices al nuevo grafo MST
+    
         for (Vertice v : grafoOriginal.getVertices()) {
             mst.agregarVertice(v);
         }
 
-        // Paso 2: Obtener y ordenar todas las aristas por peso
         List<Arista> aristas = new ArrayList<>();
         Set<String> vistas = new HashSet<>();
         for (Vertice origen : grafoOriginal.getVertices()) {
@@ -63,11 +62,10 @@ public class AlgoritmosMST {
 
         aristas.sort(Comparator.comparingDouble(Arista::getPeso));
 
-        // Paso 3: Inicializar Union-Find
+
         UnionFind uf = new UnionFind();
         uf.makeSet(grafoOriginal.getVertices());
 
-        // Paso 4: Construir MST
         for (Arista arista : aristas) {
             Vertice u = ((AristaPair) arista).origen;
             Vertice v = arista.getDestino();
@@ -81,7 +79,6 @@ public class AlgoritmosMST {
         return mst;
     }
 
-    // Clase interna para mantener referencia al origen
     private static class AristaPair extends Arista {
 
         private final Vertice origen;
