@@ -1,5 +1,6 @@
 Algoritmos\AlgoritmosMST$AristaPair.class
 Presentacion\Presentacion$4.class
+Algoritmos\AlgoritmosBusqueda$UnionFind.class
 Presentacion\Presentacion$3.class
 Algoritmos\BellmanFord.class
 Algoritmos\AlgoritmosMST.class
@@ -10,6 +11,8 @@ Presentacion\MapaPanel.class
 Presentacion\Presentacion$5.class
 Algoritmos\AlgoritmosBusqueda.class
 Presentacion\Presentacion$1.class
+Presentacion\Presentacion$7.class
+Algoritmos\AlgoritmosBusqueda$AristaPair.class
 Algoritmos\MapaCiudades.class
 Presentacion\MapaPanel$1.class
 Presentacion\Presentacion.class

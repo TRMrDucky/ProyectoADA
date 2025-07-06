@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AlgoritmosMST{
+public class AlgoritmosMST {
 
-private static class UnionFind {
+    private static class UnionFind {
+
         private final Map<Vertice, Vertice> padre = new HashMap<>();
 
         public void makeSet(Set<Vertice> vertices) {
@@ -82,6 +83,7 @@ private static class UnionFind {
 
     // Clase interna para mantener referencia al origen
     private static class AristaPair extends Arista {
+
         private final Vertice origen;
 
         public AristaPair(Vertice origen, Arista arista) {
@@ -90,4 +92,67 @@ private static class UnionFind {
         }
     }
 
+    //boruvka
+    public static Grafo aplicarBoruvka(Grafo grafoOriginal) {
+        Grafo mst = new Grafo();
+        grafoOriginal.getVertices().forEach(mst::agregarVertice);
+
+        UnionFind uf = new UnionFind();
+        uf.makeSet(grafoOriginal.getVertices());
+
+        long numComponentes = grafoOriginal.getVertices().size();
+
+        while (numComponentes > 1) {
+            Map<Vertice, AristaPair> aristasMasBaratas = new HashMap<>();
+
+            for (Vertice origen : grafoOriginal.getVertices()) {
+                for (Arista arista : grafoOriginal.getVecinos(origen)) {
+                    Vertice destino = arista.getDestino();
+
+                    Vertice raizOrigen = uf.find(origen);
+                    Vertice raizDestino = uf.find(destino);
+
+                    if (raizOrigen != null && !raizOrigen.equals(raizDestino)) {
+
+                        AristaPair aristaActualOrigen = aristasMasBaratas.get(raizOrigen);
+                        if (aristaActualOrigen == null || arista.getPeso() < aristaActualOrigen.getPeso()) {
+                            aristasMasBaratas.put(raizOrigen, new AristaPair(origen, arista));
+                        }
+
+                        AristaPair aristaActualDestino = aristasMasBaratas.get(raizDestino);
+                        if (aristaActualDestino == null || arista.getPeso() < aristaActualDestino.getPeso()) {
+                            aristasMasBaratas.put(raizDestino, new AristaPair(origen, arista));
+                        }
+                    }
+                }
+            }
+
+            long componentesAntesDeUnion = contarComponentes(grafoOriginal.getVertices(), uf);
+
+            for (AristaPair aristaBarata : aristasMasBaratas.values()) {
+                Vertice u = aristaBarata.origen;
+                Vertice v = aristaBarata.getDestino();
+
+                if (!uf.find(u).equals(uf.find(v))) {
+                    mst.agregarArista(u, v, aristaBarata.getPeso());
+                    uf.union(u, v);
+                }
+            }
+
+            numComponentes = contarComponentes(grafoOriginal.getVertices(), uf);
+
+            if (numComponentes == componentesAntesDeUnion) {
+                break;
+            }
+        }
+        return mst;
+    }
+
+    public static long contarComponentes(Set<Vertice> vertices, UnionFind uf) {
+        Set<Vertice> raices = new HashSet<>();
+        for (Vertice v : vertices) {
+            raices.add(uf.find(v));
+        }
+        return raices.size();
+    }
 }
