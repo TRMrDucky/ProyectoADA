@@ -94,25 +94,20 @@ public class AlgoritmosBusqueda {
 
         //Pila para gestionar el orden de visita
         Deque<Vertice> pila = new ArrayDeque<>();
-        //Apilar el vertice origen
+        // Marcar el origen como visitado y agregarlo a la pila
+        visitado.put(origen, true); 
         pila.push(origen);
-
+        ordenVisitas.add(origen); 
         while (!pila.isEmpty()) {
-            //Extraer el siguiente vertice de la pila
             Vertice actual = pila.pop();
-
-            //Procesa los vertices no visitados
-            if (!visitado.get(actual)) {
-                visitado.put(actual, true);
-                ordenVisitas.add(actual);
-
-                //Agarra todos los vecinos del vertice actual
-                for (var arista : grafo.getVecinos(actual)) {
-                    Vertice vecino = arista.getDestino();
-                    if (!visitado.get(vecino)) {
-                        pila.push(vecino);
-                        grafoResultante.agregarArista(actual, vecino, arista.getPeso());
-                    }
+            // Explorar vecinos del vertice actual
+            for (var arista : grafo.getVecinos(actual)) {
+                Vertice vecino = arista.getDestino();
+                if (!visitado.get(vecino)) {
+                    visitado.put(vecino, true); 
+                    pila.push(vecino);
+                    ordenVisitas.add(vecino); 
+                    grafoResultante.agregarArista(actual, vecino, arista.getPeso());
                 }
             }
         }
@@ -272,11 +267,12 @@ public class AlgoritmosBusqueda {
                 return arista.getPeso();
             }
         }
-        return 0.0; 
+        return 0.0;
     }
-    
+
     //bellman-ford
     private static class UnionFind {
+
         private final Map<Vertice, Vertice> padre = new HashMap<>();
 
         public void makeSet(Set<Vertice> vertices) {
@@ -345,6 +341,7 @@ public class AlgoritmosBusqueda {
 
     // Clase interna para mantener referencia al origen
     private static class AristaPair extends Arista {
+
         private final Vertice origen;
 
         public AristaPair(Vertice origen, Arista arista) {
