@@ -45,14 +45,15 @@ public class Presentacion extends javax.swing.JFrame {
     private void initComponents() {
 
         panelMapa = new javax.swing.JPanel();
-        btnKruskal = new javax.swing.JButton();
-        BtnBellmanFord = new javax.swing.JButton();
-        BtnBFS = new javax.swing.JButton();
-        BtnDFS = new javax.swing.JButton();
-        BtnDijkstra = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         btnSalir = new javax.swing.JButton();
-        btnBoruvka = new javax.swing.JButton();
         BntReiniciar = new javax.swing.JButton();
+        btnBoruvka = new javax.swing.JButton();
+        BtnDijkstra = new javax.swing.JButton();
+        BtnDFS = new javax.swing.JButton();
+        BtnBFS = new javax.swing.JButton();
+        BtnBellmanFord = new javax.swing.JButton();
+        btnKruskal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,48 +61,18 @@ public class Presentacion extends javax.swing.JFrame {
         panelMapa.setLayout(panelMapaLayout);
         panelMapaLayout.setHorizontalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1128, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panelMapaLayout.setVerticalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
+            .addGap(0, 514, Short.MAX_VALUE)
         );
 
-        btnKruskal.setText("Kruskal");
-        btnKruskal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKruskalActionPerformed(evt);
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        BtnBellmanFord.setText("Bellman ford");
-        BtnBellmanFord.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnBellmanFordActionPerformed(evt);
-            }
-        });
-
-        BtnBFS.setText("BFS");
-        BtnBFS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnBFSActionPerformed(evt);
-            }
-        });
-
-        BtnDFS.setText("DFS");
-        BtnDFS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnDFSActionPerformed(evt);
-            }
-        });
-
-        BtnDijkstra.setText("Dijkstra");
-        BtnDijkstra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnDijkstraActionPerformed(evt);
-            }
-        });
-
+        btnSalir.setBackground(new java.awt.Color(204, 0, 51));
+        btnSalir.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,13 +80,9 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
 
-        btnBoruvka.setText("Boruvka");
-        btnBoruvka.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBoruvkaActionPerformed(evt);
-            }
-        });
-
+        BntReiniciar.setBackground(new java.awt.Color(0, 102, 102));
+        BntReiniciar.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        BntReiniciar.setForeground(new java.awt.Color(255, 255, 255));
         BntReiniciar.setText("Reiniciar mapa");
         BntReiniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,46 +90,127 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
 
+        btnBoruvka.setBackground(new java.awt.Color(0, 102, 102));
+        btnBoruvka.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        btnBoruvka.setForeground(new java.awt.Color(255, 255, 255));
+        btnBoruvka.setText("Boruvka");
+        btnBoruvka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBoruvkaActionPerformed(evt);
+            }
+        });
+
+        BtnDijkstra.setBackground(new java.awt.Color(0, 102, 102));
+        BtnDijkstra.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        BtnDijkstra.setForeground(new java.awt.Color(255, 255, 255));
+        BtnDijkstra.setText("Dijkstra");
+        BtnDijkstra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDijkstraActionPerformed(evt);
+            }
+        });
+
+        BtnDFS.setBackground(new java.awt.Color(0, 102, 102));
+        BtnDFS.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        BtnDFS.setForeground(new java.awt.Color(255, 255, 255));
+        BtnDFS.setText("DFS");
+        BtnDFS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDFSActionPerformed(evt);
+            }
+        });
+
+        BtnBFS.setBackground(new java.awt.Color(0, 102, 102));
+        BtnBFS.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        BtnBFS.setForeground(new java.awt.Color(255, 255, 255));
+        BtnBFS.setText("BFS");
+        BtnBFS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBFSActionPerformed(evt);
+            }
+        });
+
+        BtnBellmanFord.setBackground(new java.awt.Color(0, 102, 102));
+        BtnBellmanFord.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        BtnBellmanFord.setForeground(new java.awt.Color(255, 255, 255));
+        BtnBellmanFord.setText("Bellman ford");
+        BtnBellmanFord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBellmanFordActionPerformed(evt);
+            }
+        });
+
+        btnKruskal.setBackground(new java.awt.Color(0, 102, 102));
+        btnKruskal.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        btnKruskal.setForeground(new java.awt.Color(255, 255, 255));
+        btnKruskal.setText("Kruskal");
+        btnKruskal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKruskalActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(btnBoruvka, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BntReiniciar)
+                .addGap(38, 38, 38)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(101, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(32, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBoruvka, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(BntReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnBoruvka, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(BntReiniciar)
-                .addGap(27, 27, 27)
-                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnKruskal, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(BtnBellmanFord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(BtnBFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(BtnDFS, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(BtnDijkstra, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnBoruvka, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BntReiniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(20, 20, 20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -380,6 +428,7 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JButton btnBoruvka;
     private javax.swing.JButton btnKruskal;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelMapa;
     // End of variables declaration//GEN-END:variables
 }
