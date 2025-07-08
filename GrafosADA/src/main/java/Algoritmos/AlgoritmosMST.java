@@ -159,4 +159,39 @@ public class AlgoritmosMST {
         }
         return raices.size();
     }
+
+    //prim
+    public static Grafo aplicarprim(Grafo grafoOriginal){
+        Grafo mst = new Grafo();
+        Set<Vertice> visitados = new HashSet<>();
+        PriorityQueue<AristaPair> cola = new PriorityQueue<>(Comparator.comparingDouble(Arista::getPeso));
+        
+        
+        if(grafoOriginal.getVertices().isEmpty()) return mst;
+        
+        Vertice inicio = grafoOriginal.getVertices().iterator().next();
+        mst.agregarVertice(inicio);
+        visitados.add(inicio);
+        
+        for (Arista arista : grafoOriginal.getVecinos(inicio)) {
+            cola.add(new AristaPair(inicio,arista));
+        }
+        
+        while(!cola.isEmpty() && visitados.size() < grafoOriginal.getVertices().size()){
+            AristaPair arista = cola.poll();
+            Vertice origen = arista.origen;
+            Vertice destino = arista.getDestino();
+            if (visitados.contains(destino)) continue;
+            
+            mst.agregarVertice(destino);
+            mst.agregarArista(origen, destino, arista.getPeso());
+            visitados.add(destino);
+            for (Arista siguiente : grafoOriginal.getVecinos(destino)){
+                if (!visitados.contains(siguiente.getDestino())){
+                    cola.add(new AristaPair(destino,siguiente));
+                }
+            }
+        }
+        return mst;
+    }
 }
