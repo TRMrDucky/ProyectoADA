@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import javax.swing.JOptionPane;
 
@@ -159,7 +160,6 @@ public class AlgoritmosMST {
         }
         return raices.size();
     }
-
     //prim
     public static Grafo aplicarprim(Grafo grafoOriginal){
         Grafo mst = new Grafo();
