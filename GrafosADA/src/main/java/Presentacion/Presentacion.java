@@ -284,6 +284,7 @@ public class Presentacion extends javax.swing.JFrame {
                 "Nombre de la Ciudad", "Destino", "Peso"
             }
         ));
+        jTable1.setEnabled(false);
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
