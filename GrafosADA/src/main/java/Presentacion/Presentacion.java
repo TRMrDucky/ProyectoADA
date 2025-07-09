@@ -39,6 +39,62 @@ public class Presentacion extends javax.swing.JFrame {
 
     }
 
+    private void mostrarReporte() {
+        String rutaPDF = "Reporte Complejidad Temporal.pdf";
+
+        try {
+            java.io.File archivo = new java.io.File(rutaPDF);
+            if (!archivo.exists()) {
+                JOptionPane.showMessageDialog(this,
+                        "El archivo PDF no se encontro en la ruta especificada:\n" + rutaPDF,
+                        "Archivo no encontrado",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!java.awt.Desktop.isDesktopSupported()) {
+                JOptionPane.showMessageDialog(this,
+                        "El sistema no soporta la apertura automatica de archivos.",
+                        "Funcionalidad no soportada",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+
+            // Verificar si se puede abrir archivos
+            if (!desktop.isSupported(java.awt.Desktop.Action.OPEN)) {
+                JOptionPane.showMessageDialog(this,
+                        "El sistema no puede abrir archivos automaticamente.",
+                        "Acción no soportada",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Abrir el archivo PDF
+            desktop.open(archivo);
+
+        } catch (java.io.IOException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al abrir el archivo PDF:\n" + ex.getMessage(),
+                    "Error de E/S",
+                    JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "El archivo especificado no es valido:\n" + ex.getMessage(),
+                    "Archivo invalido",
+                    JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error inesperado al abrir el archivo:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,6 +120,7 @@ public class Presentacion extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btnTablaNodos = new javax.swing.JToggleButton();
+        btnReporte = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,7 +128,7 @@ public class Presentacion extends javax.swing.JFrame {
         panelMapa.setLayout(panelMapaLayout);
         panelMapaLayout.setHorizontalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1049, Short.MAX_VALUE)
         );
         panelMapaLayout.setVerticalGroup(
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,7 +139,6 @@ public class Presentacion extends javax.swing.JFrame {
 
         btnSalir.setBackground(new java.awt.Color(204, 0, 51));
         btnSalir.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
-        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,7 +287,6 @@ public class Presentacion extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("TABLA DE NODOS");
 
         btnTablaNodos.setText("Mostrar Nodos");
@@ -241,22 +296,29 @@ public class Presentacion extends javax.swing.JFrame {
             }
         });
 
+        btnReporte.setText("Reporte Complejidad Temporal");
+        btnReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnReporte)
+                        .addGap(64, 64, 64)
+                        .addComponent(btnTablaNodos))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jLabel1)))
                 .addGap(16, 16, 16))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(btnTablaNodos)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,9 +327,11 @@ public class Presentacion extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(btnTablaNodos)
-                .addGap(28, 28, 28))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTablaNodos)
+                    .addComponent(btnReporte))
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -275,12 +339,12 @@ public class Presentacion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addComponent(panelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -578,6 +642,10 @@ public class Presentacion extends javax.swing.JFrame {
         mostrarTablaAdyacencias(mp.getGrafo());
     }//GEN-LAST:event_btnTablaNodosActionPerformed
 
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+        mostrarReporte();
+    }//GEN-LAST:event_btnReporteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -634,6 +702,7 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JButton BtnPrim;
     private javax.swing.JButton btnBoruvka;
     private javax.swing.JButton btnKruskal;
+    private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSalir;
     private javax.swing.JToggleButton btnTablaNodos;
     private javax.swing.JLabel jLabel1;
