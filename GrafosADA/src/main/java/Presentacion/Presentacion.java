@@ -12,11 +12,15 @@ import Grafos.Arista;
 import Grafos.Grafo;
 import Grafos.Vertice;
 import java.awt.BorderLayout;
+import java.awt.ScrollPane;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -59,6 +63,7 @@ public class Presentacion extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        btnTablaNodos = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -214,13 +219,13 @@ public class Presentacion extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Nombre de la Ciudad", "Cordenadas"
+                "Nombre de la Ciudad", "Destino", "Peso"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -228,6 +233,13 @@ public class Presentacion extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("TABLA DE NODOS");
+
+        btnTablaNodos.setText("Mostrar Nodos");
+        btnTablaNodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTablaNodosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -241,6 +253,10 @@ public class Presentacion extends javax.swing.JFrame {
                         .addGap(54, 54, 54)
                         .addComponent(jLabel1)))
                 .addGap(16, 16, 16))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(151, 151, 151)
+                .addComponent(btnTablaNodos)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,7 +265,9 @@ public class Presentacion extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81))
+                .addGap(29, 29, 29)
+                .addComponent(btnTablaNodos)
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -353,6 +371,10 @@ public class Presentacion extends javax.swing.JFrame {
             return;
         }
 
+        // Mostrar tabla de iteraciones
+        String tablaIteraciones = (String) resultado.get("tablaIteraciones");
+        JOptionPane.showMessageDialog(this, tablaIteraciones, "Evolución de Distancias (Bellman-Ford)", JOptionPane.INFORMATION_MESSAGE);
+
         Grafo grafoRuta = new Grafo();
         ruta.forEach(grafoRuta::agregarVertice);
 
@@ -378,7 +400,13 @@ public class Presentacion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Selecciona un vertice origen");
             return;
         }
-        Grafo g = algoritmos.BFS(mp.getGrafo(), origen);
+
+        Map<String, Object> resultado = algoritmos.BFS(mp.getGrafo(), origen);
+        Grafo g = (Grafo) resultado.get("grafo");
+        String recorrido = (String) resultado.get("recorrido");
+
+        JOptionPane.showMessageDialog(this, "Recorrido BFS por niveles:\n" + recorrido, "Recorrido BFS", JOptionPane.INFORMATION_MESSAGE);
+
         try {
             mp.actualizarGrafo(g);
         } catch (InterruptedException ex) {
@@ -392,7 +420,12 @@ public class Presentacion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Selecciona un vertice origen");
             return;
         }
-        Grafo g = algoritmos.DFS(mp.getGrafo(), origen);
+        Map<String, Object> resultado = algoritmos.DFS(mp.getGrafo(), origen);
+        Grafo g = (Grafo) resultado.get("grafo");
+        String recorrido = (String) resultado.get("recorrido");
+
+        JOptionPane.showMessageDialog(this, "Recorrido DFS (orden de descubrimiento):\n" + recorrido, "Recorrido DFS", JOptionPane.INFORMATION_MESSAGE);
+
         try {
             mp.actualizarGrafo(g);
         } catch (InterruptedException ex) {
@@ -406,7 +439,32 @@ public class Presentacion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Selecciona un vertice origen");
             return;
         }
-        Grafo g = algoritmos.Dijkstra(mp.getGrafo(), origen);
+
+        String destinoNombre = JOptionPane.showInputDialog(this, "Ingrese la ciudad de destino:");
+        if (destinoNombre == null || destinoNombre.trim().isEmpty()) {
+            return;
+        }
+
+        Grafo grafoOriginal = mp.getGrafo();
+        Vertice destino = null;
+
+        for (Vertice v : grafoOriginal.getVertices()) {
+            if (v.getNombre().equalsIgnoreCase(destinoNombre.trim())) {
+                destino = v;
+            }
+        }
+
+        if (destino == null) {
+            JOptionPane.showMessageDialog(this, "La ciudad de destino no se encontro", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Map<String, Object> resultado = algoritmos.Dijkstra(grafoOriginal, origen, destino);
+        Grafo g = (Grafo) resultado.get("grafo");
+        String reporte = (String) resultado.get("reporte");
+
+        JOptionPane.showMessageDialog(this, reporte, "Reporte Dijkstra", JOptionPane.INFORMATION_MESSAGE);
+
         try {
             mp.actualizarGrafo(g);
         } catch (InterruptedException ex) {
@@ -428,7 +486,7 @@ public class Presentacion extends javax.swing.JFrame {
             Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnBoruvkaActionPerformed
-    
+
     private void BntReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BntReiniciarActionPerformed
         Grafo grafoOriginal = MapaCiudades.construirGrafo();
         try {
@@ -439,15 +497,86 @@ public class Presentacion extends javax.swing.JFrame {
     }//GEN-LAST:event_BntReiniciarActionPerformed
 
     private void BtnPrimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrimActionPerformed
-     try{
-            Grafo grafoOriginal = mp.getGrafo();
-            Grafo mst = AlgoritmosMST.aplicarprim(grafoOriginal);
-            mp.actualizarGrafo(mst);
-        } catch(InterruptedException ex){
+        String origenNombre = JOptionPane.showInputDialog(this, "Ingrese la ciudad de origen:");
+        if (origenNombre == null || origenNombre.trim().isEmpty()) {
+            return;
+        }
+
+        String destinoNombre = JOptionPane.showInputDialog(this, "Ingrese la ciudad de destino:");
+        if (destinoNombre == null || destinoNombre.trim().isEmpty()) {
+            return;
+        }
+
+        Grafo grafoOriginal = mp.getGrafo();
+        Vertice origen = null;
+        Vertice destino = null;
+
+        for (Vertice v : grafoOriginal.getVertices()) {
+            if (v.getNombre().equalsIgnoreCase(origenNombre.trim())) {
+                origen = v;
+            }
+            if (v.getNombre().equalsIgnoreCase(destinoNombre.trim())) {
+                destino = v;
+            }
+        }
+
+        if (origen == null || destino == null) {
+            JOptionPane.showMessageDialog(this, "Una o ambas ciudades no se encontraron en el grafo.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (origen.equals(destino)) {
+            JOptionPane.showMessageDialog(this, "La ciudad de origen y destino no pueden ser la misma.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        Map<String, Object> resultado = BellmanFord.BellmanFord(grafoOriginal, origen, destino);
+
+        if ((Boolean) resultado.get("ciclo negativo")) {
+            JOptionPane.showMessageDialog(this, "Se detecto un ciclo de peso negativo. No se puede calcular la ruta mas corta.", "Ciclo Negativo Detectado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<Vertice> ruta = (List<Vertice>) resultado.get("ruta");
+        if (ruta == null || ruta.size() < 2) {
+            JOptionPane.showMessageDialog(this, "No se encontro una ruta entre las ciudades seleccionadas.", "Sin Ruta", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Mostrar tabla de iteraciones
+        String tablaIteraciones = (String) resultado.get("tablaIteraciones");
+        JOptionPane.showMessageDialog(this, tablaIteraciones, "Evolución de Distancias (Bellman-Ford)", JOptionPane.INFORMATION_MESSAGE);
+
+        Grafo grafoRuta = new Grafo();
+        ruta.forEach(grafoRuta::agregarVertice);
+
+        for (int i = 0; i < ruta.size() - 1; i++) {
+            Vertice u = ruta.get(i);
+            Vertice v = ruta.get(i + 1);
+            double peso = obtenerPesoArista(grafoOriginal, u, v);
+            grafoRuta.agregarArista(u, v, peso);
+        }
+
+        try {
+            mp.actualizarGrafo(grafoRuta);
+        } catch (InterruptedException ex) {
             Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }   
+        }
+
     }//GEN-LAST:event_BtnPrimActionPerformed
+    private void mostrarTablaAdyacencias(Grafo grafo) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Limpiar tabla
+        for (Vertice origen : grafo.getAdyacencias().keySet()) {
+            for (Arista arista : grafo.getAdyacencias().get(origen)) {
+                Object[] row = {origen.getNombre(), arista.getDestino().getNombre(), arista.getPeso()};
+                model.addRow(row);
+            }
+        }
+    }
+    private void btnTablaNodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTablaNodosActionPerformed
+        mostrarTablaAdyacencias(mp.getGrafo());
+    }//GEN-LAST:event_btnTablaNodosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -506,6 +635,7 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JButton btnBoruvka;
     private javax.swing.JButton btnKruskal;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JToggleButton btnTablaNodos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

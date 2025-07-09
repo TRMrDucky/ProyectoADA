@@ -1,6 +1,7 @@
 Presentacion\Presentacion$4.class
 Grafos\Vertice.class
 Presentacion\MapaPanel.class
+Presentacion\Presentacion$11.class
 Presentacion\Presentacion$9.class
 Presentacion\Presentacion$7.class
 Algoritmos\MapaCiudades.class
@@ -9,7 +10,6 @@ Algoritmos\AlgoritmosMST$UnionFind.class
 Presentacion\MapaPanel$CustomPolyline.class
 Presentacion\Presentacion$2.class
 Algoritmos\AlgoritmosMST$AristaPair.class
-Algoritmos\AlgoritmosBusqueda$UnionFind.class
 Presentacion\Presentacion$10.class
 Presentacion\Presentacion$3.class
 Algoritmos\BellmanFord.class
@@ -19,7 +19,6 @@ Algoritmos\NodoDistancia.class
 Presentacion\Presentacion$5.class
 Algoritmos\AlgoritmosBusqueda.class
 Presentacion\Presentacion$1.class
-Algoritmos\AlgoritmosBusqueda$AristaPair.class
 Presentacion\Presentacion$8.class
 Presentacion\Presentacion.class
 Presentacion\Presentacion$6.class

@@ -15,8 +15,8 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
  * @author 52644
  */
 public class MapaCiudades {
-     
-   public static Grafo construirGrafo() {
+
+    public static Grafo construirGrafo() {
         Grafo grafo = new Grafo();
         Map<String, Vertice> nodos = new HashMap<>();
 

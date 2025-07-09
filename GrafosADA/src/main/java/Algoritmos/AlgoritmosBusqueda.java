@@ -14,145 +14,173 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class AlgoritmosBusqueda {
+//algoritmo BFS
 
-    /**
-     * Realiza un recorrido BFS (Breadth-First Search) en el grafo desde un
-     * vertice de origen.
-     *
-     * @param grafo Grafo en el que se realizara la busqueda
-     * @param origen Vertice de inicio del recorrido
-     * @return Lista de vertices en el orden en que fueron visitados durante el
-     * BFS
-     */
-    public Grafo BFS(Grafo grafo, Vertice origen) {
-        //Guarda el orden de visita de cada vertice
-        List<Vertice> ordenVisitas = new ArrayList<>();
-
-        //Guarda los vertices ya visitados
+    public Map<String, Object> BFS(Grafo grafo, Vertice origen) {
+        Map<String, Object> resultado = new HashMap<>();
+        StringBuilder recorridoPorNiveles = new StringBuilder();
         Map<Vertice, Boolean> visitado = new HashMap<>();
-
-        // Grafo que representara el BFS
         Grafo grafoResultante = new Grafo();
 
-        //Pone todos los vertices como no visitados
         for (Vertice v : grafo.getVertices()) {
             visitado.put(v, false);
-            // Agregar todos los vértices al grafo resultante
             grafoResultante.agregarVertice(v);
         }
 
-        //Cola para gestionar el orden de visita
         Queue<Vertice> cola = new ArrayDeque<>();
-        //Marca y encola el vertice origen
         visitado.put(origen, true);
         cola.offer(origen);
 
+        int nivel = 0;
         while (!cola.isEmpty()) {
-            //Saca el siguiente vertice de la cola
-            Vertice actual = cola.poll();
-            ordenVisitas.add(actual);
+            int tamanoNivel = cola.size();
+            recorridoPorNiveles.append("Nivel ").append(nivel).append(": ");
+            StringJoiner sj = new StringJoiner(", ");
 
-            //Obtiene todos los vecinos del vertice actual
-            for (var arista : grafo.getVecinos(actual)) {
-                Vertice vecino = arista.getDestino();
-                //Va marcando los vertices que no esten visitados
-                if (!visitado.get(vecino)) {
-                    visitado.put(vecino, true);
-                    cola.offer(vecino);
-                    grafoResultante.agregarArista(actual, vecino, arista.getPeso());
+            for (int i = 0; i < tamanoNivel; i++) {
+                Vertice actual = cola.poll();
+                sj.add(actual.getNombre());
+
+                for (var arista : grafo.getVecinos(actual)) {
+                    Vertice vecino = arista.getDestino();
+                    if (!visitado.get(vecino)) {
+                        visitado.put(vecino, true);
+                        cola.offer(vecino);
+                        grafoResultante.agregarArista(actual, vecino, arista.getPeso());
+                    }
                 }
             }
+            recorridoPorNiveles.append(sj.toString()).append("\n");
+            nivel++;
         }
-        return grafoResultante;
+
+        resultado.put("grafo", grafoResultante);
+        resultado.put("recorrido", recorridoPorNiveles.toString());
+        return resultado;
     }
 
     /**
-     * Realiza un recorrido DFS (Depth-First Search) en el grafo desde un
-     * vertice de origen.
+     * Prepara y lanza el recorrido DFS.
      *
-     * @param grafo Grafo en el que se realizara la busqueda
-     * @param origen Vertice de inicio del recorrido
-     * @return Lista de vertices en el orden en que fueron visitados durante el
-     * DFS
+     * @param grafo El grafo a recorrer.
+     * @param origen El vértice de inicio.
+     * @return Un mapa con el grafo del árbol DFS y el recorrido textual.
      */
-    public Grafo DFS(Grafo grafo, Vertice origen) {
-        //Guarda el orden de visita de cada vertice
-        List<Vertice> ordenVisitas = new ArrayList<>();
-        //Guarda los vertices ya visitados
+    //ALGORITMO DFS
+    public Map<String, Object> DFS(Grafo grafo, Vertice origen) {
+        Map<String, Object> resultado = new HashMap<>();
+        List<String> ordenVisitas = new ArrayList<>();
         Map<Vertice, Boolean> visitado = new HashMap<>();
-        // Grafo que representara el DFS
         Grafo grafoResultante = new Grafo();
 
-        //Pone todos los vertices como no visitados
         for (Vertice v : grafo.getVertices()) {
             visitado.put(v, false);
-            // Agregar todos los vertices al grafo resultante
             grafoResultante.agregarVertice(v);
         }
 
-        //Pila para gestionar el orden de visita
-        Deque<Vertice> pila = new ArrayDeque<>();
-        // Marcar el origen como visitado y agregarlo a la pila
-        visitado.put(origen, true); 
-        pila.push(origen);
-        ordenVisitas.add(origen); 
-        while (!pila.isEmpty()) {
-            Vertice actual = pila.pop();
-            // Explorar vecinos del vertice actual
-            for (var arista : grafo.getVecinos(actual)) {
-                Vertice vecino = arista.getDestino();
-                if (!visitado.get(vecino)) {
-                    visitado.put(vecino, true); 
-                    pila.push(vecino);
-                    ordenVisitas.add(vecino); 
-                    grafoResultante.agregarArista(actual, vecino, arista.getPeso());
-                }
-            }
-        }
-        return grafoResultante;
+        // Llamada al método recursivo auxiliar
+        dfsRecursivo(origen, grafo, visitado, ordenVisitas, grafoResultante);
+
+        resultado.put("grafo", grafoResultante);
+        resultado.put("recorrido", String.join(" -> ", ordenVisitas));
+        return resultado;
     }
 
-    public Grafo Dijkstra(Grafo grafo, Vertice origen) {
-        //Mapa para almacenar la distancia minima desde el origen a cada vertice
+    /**
+     * Método auxiliar recursivo para el recorrido DFS.
+     */
+    private void dfsRecursivo(Vertice actual, Grafo grafo, Map<Vertice, Boolean> visitado, List<String> ordenVisitas, Grafo grafoResultante) {
+        visitado.put(actual, true);
+        ordenVisitas.add(actual.getNombre());
+
+        for (Arista arista : grafo.getVecinos(actual)) {
+            Vertice vecino = arista.getDestino();
+            if (!visitado.get(vecino)) {
+                // La arista se agrega aquí, al explorar recursivamente
+                grafoResultante.agregarArista(actual, vecino, arista.getPeso());
+                dfsRecursivo(vecino, grafo, visitado, ordenVisitas, grafoResultante);
+            }
+        }
+    }
+
+    //ALGORITMO DE DIJKSTRA
+    public Map<String, Object> Dijkstra(Grafo grafo, Vertice origen, Vertice destino) {
+        Map<String, Object> resultado = new HashMap<>();
         Map<Vertice, Double> distancias = new HashMap<>();
-        //Mapa para ir guardando el vertice previo al camino optimo
         Map<Vertice, Vertice> predecesores = new HashMap<>();
-        //Grafo que representa el Dijkstra
+        StringBuilder reporte = new StringBuilder("Evolución de distancias (Dijkstra):\n\n");
         Grafo arbolCaminos = new Grafo();
-        //Cola que ordena los vertices por distancia
-        PriorityQueue<NodoDistancia> cola = inicializarEstructuras(grafo, origen, distancias, predecesores);
 
         for (Vertice v : grafo.getVertices()) {
             arbolCaminos.agregarVertice(v);
         }
 
-        //Procesa la cola hasta dejarla vacia
-        procesarCola(grafo, distancias, predecesores, cola);
+        PriorityQueue<NodoDistancia> cola = inicializarEstructuras(grafo, origen, distancias, predecesores);
 
-        for (Vertice v : predecesores.keySet()) {
-            Vertice predecesor = predecesores.get(v);
-            if (predecesor != null) {
-                // Buscar el peso de la arista en el grafo original
-                double peso = obtenerPesoArista(grafo, predecesor, v);
-                arbolCaminos.agregarArista(predecesor, v, peso);
+        reporte.append("Estado inicial: \n").append(distanciasToString(distancias)).append("\n");
+
+        while (!cola.isEmpty()) {
+            NodoDistancia actual = cola.poll();
+            Vertice u = actual.nodo;
+
+            if (actual.distancia > distancias.get(u)) {
+                continue;
+            }
+
+            for (Arista arista : grafo.getVecinos(u)) {
+                Vertice vecino = arista.getDestino();
+                double nuevaDistancia = distancias.get(u) + arista.getPeso();
+
+                if (nuevaDistancia < distancias.get(vecino)) {
+                    distancias.put(vecino, nuevaDistancia);
+                    predecesores.put(vecino, u);
+                    cola.offer(new NodoDistancia(vecino, nuevaDistancia));
+
+                    reporte.append("Paso: se relaja la arista (")
+                            .append(u.getNombre()).append(" -> ").append(vecino.getNombre()).append(")\n")
+                            .append(distanciasToString(distancias)).append("\n");
+                }
             }
         }
 
-        //Retorna los resultados de las distancias y sus predecesores
-        return arbolCaminos;
+        List<Vertice> ruta = new ArrayList<>();
+        Vertice paso = destino;
+        while (paso != null) {
+            ruta.add(0, paso);
+            paso = predecesores.get(paso);
+        }
+
+        if (!ruta.isEmpty() && ruta.get(0).equals(origen)) {
+            for (int i = 0; i < ruta.size() - 1; i++) {
+                Vertice u = ruta.get(i);
+                Vertice v = ruta.get(i + 1);
+                arbolCaminos.agregarArista(u, v, obtenerPesoArista(grafo, u, v));
+            }
+            reporte.append("\nRuta más corta encontrada: ")
+                    .append(ruta.stream().map(Vertice::getNombre).collect(Collectors.joining(" -> ")))
+                    .append("\nDistancia total: ").append(distancias.get(destino)).append(" km");
+        } else {
+            reporte.append("\nNo se encontró una ruta entre ").append(origen.getNombre()).append(" y ").append(destino.getNombre());
+        }
+
+        resultado.put("grafo", arbolCaminos);
+        resultado.put("reporte", reporte.toString());
+        return resultado;
     }
 
-    /**
-     * Inicializa todos los datos necesario para el algoritmo de Dijkstra.
-     *
-     * @param grafo Grafo de trabajo
-     * @param origen Vertice de origen
-     * @param distancias Mapa para almacenar distancias minimas
-     * @param predecesores Mapa para almacenar predecesores en caminos
-     * @return Cola de prioridad inicializada con el vertice origen
-     */
+    private String distanciasToString(Map<Vertice, Double> distancias) {
+        StringJoiner sj = new StringJoiner(", ", "{", "}");
+        distancias.forEach((key, value) -> {
+            String dist = value == Double.POSITIVE_INFINITY ? "∞" : String.format("%.2f", value);
+            sj.add(key.getNombre() + "=" + dist);
+        });
+        return sj.toString();
+    }
+
     private PriorityQueue<NodoDistancia> inicializarEstructuras(
             Grafo grafo, Vertice origen,
             Map<Vertice, Double> distancias,
@@ -176,91 +204,6 @@ public class AlgoritmosBusqueda {
         return cola;
     }
 
-    /**
-     * Procesa la cola de prioridad del algoritmo de Dijkstra.
-     *
-     * @param grafo Grafo de trabajo
-     * @param distancias Mapa de distancias mínimas
-     * @param predecesores Mapa de predecesores
-     * @param cola Cola de prioridad con nodos a procesar
-     */
-    private void procesarCola(
-            Grafo grafo,
-            Map<Vertice, Double> distancias,
-            Map<Vertice, Vertice> predecesores,
-            PriorityQueue<NodoDistancia> cola) {
-
-        while (!cola.isEmpty()) {
-            //Agarra el vertice con menor distancia acumulada
-            NodoDistancia actual = cola.poll();
-            Vertice u = actual.nodo;
-
-            //Verifa si encuentra una mejor distancia
-            if (actual.distancia > distancias.get(u)) {
-                continue;
-            }
-
-            //Iterar sobre los vecinos
-            for (Arista arista : grafo.getVecinos(u)) {
-                procesarVecino(u, arista, distancias, predecesores, cola);
-            }
-        }
-    }
-
-    /**
-     * Procesa un vecino del nodo actual en el algoritmo de Dijkstra.
-     *
-     * @param actual Nodo actual siendo procesado
-     * @param arista Arista que conecta con el vecino
-     * @param distancias Mapa de distancias mínimas
-     * @param predecesores Mapa de predecesores
-     * @param cola Cola de prioridad
-     */
-    private void procesarVecino(
-            Vertice actual,
-            Arista arista,
-            Map<Vertice, Double> distancias,
-            Map<Vertice, Vertice> predecesores,
-            PriorityQueue<NodoDistancia> cola) {
-
-        Vertice vecino = arista.getDestino();
-        double distanciaActual = distancias.get(actual); //Distancia del vertice actual
-        double nuevaDistancia = distanciaActual + arista.getPeso(); //Calcula la nueva distancia 
-        double distanciaVecino = distancias.get(vecino); //Mejor distancia conocida del vecino
-
-        //Comprueva si se encuentra un mejor camino
-        if (nuevaDistancia < distanciaVecino) {
-            actualizarDistancias(vecino, nuevaDistancia, actual, distancias, predecesores, cola);
-        }
-    }
-
-    /**
-     * Actualiza distancias y predecesores cuando se encuentra un camino mas
-     * corto.
-     *
-     * @param vecino Vertice vecino a actualizar
-     * @param nuevaDistancia Nueva distancia calculada
-     * @param predecesor Predecesor en el nuevo camino
-     * @param distancias Mapa de distancias
-     * @param predecesores Mapa de predecesores
-     * @param cola Cola de prioridad
-     */
-    private void actualizarDistancias(
-            Vertice vecino,
-            double nuevaDistancia,
-            Vertice predecesor,
-            Map<Vertice, Double> distancias,
-            Map<Vertice, Vertice> predecesores,
-            PriorityQueue<NodoDistancia> cola) {
-
-        //Actualiza la distancia minima para el vertice
-        distancias.put(vecino, nuevaDistancia);
-        //Guarda un nuevo predecesor en el camino optimo
-        predecesores.put(vecino, predecesor);
-        //Inserta en la cola para el procesamiento
-        cola.offer(new NodoDistancia(vecino, nuevaDistancia));
-    }
-
     private double obtenerPesoArista(Grafo grafo, Vertice origen, Vertice destino) {
         for (Arista arista : grafo.getVecinos(origen)) {
             if (arista.getDestino().equals(destino)) {
@@ -268,85 +211,5 @@ public class AlgoritmosBusqueda {
             }
         }
         return 0.0;
-    }
-
-    //bellman-ford
-    private static class UnionFind {
-
-        private final Map<Vertice, Vertice> padre = new HashMap<>();
-
-        public void makeSet(Set<Vertice> vertices) {
-            for (Vertice v : vertices) {
-                padre.put(v, v);
-            }
-        }
-
-        public Vertice find(Vertice v) {
-            if (padre.get(v) != v) {
-                padre.put(v, find(padre.get(v))); // Compresión de camino
-            }
-            return padre.get(v);
-        }
-
-        public void union(Vertice u, Vertice v) {
-            Vertice raizU = find(u);
-            Vertice raizV = find(v);
-            if (!raizU.equals(raizV)) {
-                padre.put(raizU, raizV); // Unión simple
-            }
-        }
-    }
-
-    public static Grafo aplicarKruskal(Grafo grafoOriginal) {
-        Grafo mst = new Grafo(); // Grafo resultante (MST)
-
-        // Paso 1: Agregar todos los vértices al nuevo grafo MST
-        for (Vertice v : grafoOriginal.getVertices()) {
-            mst.agregarVertice(v);
-        }
-
-        // Paso 2: Obtener y ordenar todas las aristas por peso
-        List<Arista> aristas = new ArrayList<>();
-        Set<String> vistas = new HashSet<>();
-        for (Vertice origen : grafoOriginal.getVertices()) {
-            for (Arista arista : grafoOriginal.getVecinos(origen)) {
-                String id = origen.getNombre() + "-" + arista.getDestino().getNombre();
-                String idReverso = arista.getDestino().getNombre() + "-" + origen.getNombre();
-                if (!vistas.contains(id) && !vistas.contains(idReverso)) {
-                    aristas.add(new AristaPair(origen, arista));
-                    vistas.add(id);
-                }
-            }
-        }
-
-        aristas.sort(Comparator.comparingDouble(Arista::getPeso));
-
-        // Paso 3: Inicializar Union-Find
-        UnionFind uf = new UnionFind();
-        uf.makeSet(grafoOriginal.getVertices());
-
-        // Paso 4: Construir MST
-        for (Arista arista : aristas) {
-            Vertice u = ((AristaPair) arista).origen;
-            Vertice v = arista.getDestino();
-
-            if (!uf.find(u).equals(uf.find(v))) {
-                mst.agregarArista(u, v, arista.getPeso());
-                uf.union(u, v);
-            }
-        }
-
-        return mst;
-    }
-
-    // Clase interna para mantener referencia al origen
-    private static class AristaPair extends Arista {
-
-        private final Vertice origen;
-
-        public AristaPair(Vertice origen, Arista arista) {
-            super(arista.getDestino(), arista.getPeso());
-            this.origen = origen;
-        }
     }
 }

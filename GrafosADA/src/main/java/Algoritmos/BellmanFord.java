@@ -12,10 +12,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 /**
  *
- * @author USER
+ * @author Adolfo
  */
 public class BellmanFord {
 
@@ -23,6 +24,7 @@ public class BellmanFord {
         Map<Vertice, Double> distancias = new HashMap<>();
         Map<Vertice, Vertice> predecesores = new HashMap<>();
         Map<String, Object> resultado = new HashMap<>();
+        StringBuilder tablaIteraciones = new StringBuilder("Evolución de Distancias (Bellman-Ford):\n\n");
 
         for (Vertice v : grafo.getVertices()) {
             distancias.put(v, Double.MAX_VALUE);
@@ -30,8 +32,11 @@ public class BellmanFord {
         }
         distancias.put(origen, 0.0);
 
+        tablaIteraciones.append("Iteración 0 (Inicial):\n").append(distanciasToString(distancias)).append("\n\n");
+
         int numVertices = grafo.getVertices().size();
         for (int i = 1; i < numVertices; i++) {
+            boolean cambio = false;
             for (Vertice u : grafo.getVertices()) {
                 for (Arista arista : grafo.getVecinos(u)) {
                     Vertice v = arista.getDestino();
@@ -39,11 +44,17 @@ public class BellmanFord {
                     if (distancias.get(u) != Double.MAX_VALUE && distancias.get(u) + peso < distancias.get(v)) {
                         distancias.put(v, distancias.get(u) + peso);
                         predecesores.put(v, u);
+                        cambio = true;
                     }
                 }
-
+            }
+            tablaIteraciones.append("Iteración ").append(i).append(":\n").append(distanciasToString(distancias)).append("\n\n");
+            if (!cambio) {
+                break;
             }
         }
+
+        // Detección de ciclos negativos
         for (Vertice u : grafo.getVertices()) {
             for (Arista arista : grafo.getVecinos(u)) {
                 Vertice v = arista.getDestino();
@@ -57,6 +68,7 @@ public class BellmanFord {
             }
         }
         resultado.put("ciclo negativo", false);
+        resultado.put("tablaIteraciones", tablaIteraciones.toString());
 
         List<Vertice> ruta = new java.util.ArrayList<>();
         Vertice paso = destino;
@@ -69,7 +81,7 @@ public class BellmanFord {
         }
         Collections.reverse(ruta);
         if (ruta.isEmpty() || !ruta.get(0).equals(origen)) {
-            resultado.put("ruta", new java.util.ArrayList<>());//aqui devuelve una ruta vacia
+            resultado.put("ruta", new java.util.ArrayList<>());
         } else {
             resultado.put("ruta", ruta);
         }
@@ -79,4 +91,12 @@ public class BellmanFord {
         return resultado;
     }
 
+    private static String distanciasToString(Map<Vertice, Double> distancias) {
+        StringJoiner sj = new StringJoiner(", ", "{", "}");
+        distancias.forEach((key, value) -> {
+            String dist = value == Double.MAX_VALUE ? "∞" : String.format("%.2f", value);
+            sj.add(key.getNombre() + "=" + dist);
+        });
+        return sj.toString();
+    }
 }
