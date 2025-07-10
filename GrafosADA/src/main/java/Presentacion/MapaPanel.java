@@ -60,7 +60,7 @@ public class MapaPanel extends JMapViewer {
                 verticeSeleccionado = encontrarVerticeCercano(coord);
                 try {
                     // Volver a dibujar el grafo para resaltar la seleccion
-                    actualizarGrafo(grafo);
+                    actualizarGrafo(grafo, 1);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MapaPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -123,13 +123,52 @@ public class MapaPanel extends JMapViewer {
                 puntos.add(coordDestino);
                 puntos.add(coordDestino);
 
+                MapPolygon linea = new CustomPolyline(puntos, Color.GREEN);
+                addMapPolygon(linea);
+                lineas.add(linea);
+
+            }
+        }
+        repaint();        
+    }
+
+    public void actualizarGrafo(Grafo g, int n) throws InterruptedException {
+        getMapMarkerList().clear();
+        lineas.forEach(this::removeMapPolygon);
+        lineas.clear();
+
+        for (Vertice nodo : g.getVertices()) {
+            Coordinate coord = new Coordinate(nodo.getLatitud(), nodo.getLongitud());
+            MapMarkerDot marker = new MapMarkerDot(nodo.getNombre(), coord);
+            if (nodo.equals(verticeSeleccionado)) {
+                marker.setBackColor(Color.GREEN);
+            } else {
+                marker.setBackColor(Color.RED);
+            }
+            marker.setColor(Color.WHITE);
+            marker.setName(nodo.getNombre());
+            addMapMarker(marker);
+        }
+
+        for (Vertice nodo : g.getVertices()) {
+            Coordinate coordOrigen = new Coordinate(nodo.getLatitud(), nodo.getLongitud());
+
+            for (Arista arista : g.getVecinos(nodo)) {
+                Vertice destino = arista.getDestino();
+                Coordinate coordDestino = new Coordinate(destino.getLatitud(), destino.getLongitud());
+
+                List<Coordinate> puntos = new ArrayList<>();
+                puntos.add(coordOrigen);
+                puntos.add(coordDestino);
+                puntos.add(coordDestino);
+
                 MapPolygon linea = new CustomPolyline(puntos, Color.BLUE);
                 addMapPolygon(linea);
                 lineas.add(linea);
 
             }
         }
-        repaint();
+        repaint();        
     }
 
     private void dibujarGrafo() {

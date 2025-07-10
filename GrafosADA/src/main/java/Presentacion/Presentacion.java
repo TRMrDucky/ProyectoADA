@@ -553,9 +553,9 @@ public class Presentacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBoruvkaActionPerformed
 
     private void BntReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BntReiniciarActionPerformed
-        Grafo grafoOriginal = MapaCiudades.construirGrafo();
+            Grafo grafoOriginal = MapaCiudades.construirGrafo();
         try {
-            mp.actualizarGrafo(grafoOriginal);
+            mp.actualizarGrafo(grafoOriginal, 1);
         } catch (InterruptedException ex) {
             Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
         }
